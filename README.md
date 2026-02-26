@@ -5,6 +5,10 @@ EWZRecaptchaBundle
 
 This bundle provides easy reCAPTCHA form field for Symfony.
 
+This is a fork of https://github.com/excelwebzone/EWZRecaptchaBundle created since the original repository has been archived.
+
+The only difference so far is compatibility with Symfony 8.0.
+
 ## Installation
 
 ### Step 1: Use composer and enable Bundle
