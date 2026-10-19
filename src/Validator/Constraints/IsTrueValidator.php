@@ -94,11 +94,7 @@ class IsTrueValidator extends ConstraintValidator
             return;
         }
 
-        if (\is_callable([$this->requestStack, 'getMainRequest'])) {
-            $request = $this->requestStack->getMainRequest();   // symfony 5.3+
-        } else {
-            $request = $this->requestStack->getMasterRequest();
-        }
+        $request = $this->requestStack->getMainRequest();
 
         $remoteip = $request->getClientIp();
         // define variable for recaptcha check answer

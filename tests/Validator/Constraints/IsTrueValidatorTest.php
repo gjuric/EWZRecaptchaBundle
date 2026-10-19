@@ -56,13 +56,8 @@ class IsTrueValidatorTest extends TestCase
             ->with($trustedRoles)
             ->willReturn(true);
 
-        if (\is_callable([$requestStack, 'getMainRequest'])) {
-            $requestStack->expects(self::never())
-                ->method('getMainRequest');
-        } else {
-            $requestStack->expects(self::never())
-                ->method('getMasterRequest');
-        }
+        $requestStack->expects(self::never())
+            ->method('getMainRequest');
 
         $validator = new IsTrueValidator(true, $reCaptcha, $requestStack, true, $authorizationChecker, $trustedRoles);
         $validator->validate('', new IsTrue());
@@ -92,20 +87,11 @@ class IsTrueValidatorTest extends TestCase
             ->willReturn($clientIp);
         $request->request = new InputBag(['g-recaptcha-response' => $recaptchaAnswer]);
 
-        if (\is_callable([$requestStack, 'getMainRequest'])) {
-            $requestStack->expects(self::once())
-                ->method('getMainRequest')
-                ->willReturn($request);
-        } else {
-            $requestStack->expects(self::once())
-                ->method('getMasterRequest')
-                ->willReturn($request);
-        }
+        $requestStack->expects(self::once())
+            ->method('getMainRequest')
+            ->willReturn($request);
 
-        $response = $this->createMock(Response::class);
-        $response->expects(self::once())
-            ->method('isSuccess')
-            ->willReturn(false);
+        $response = new Response(false);
 
         $reCaptcha->expects(self::once())
             ->method('verify')
@@ -148,23 +134,11 @@ class IsTrueValidatorTest extends TestCase
             ->method('getHost')
             ->willReturn('host1');
 
-        if (\is_callable([$requestStack, 'getMainRequest'])) {
-            $requestStack->expects(self::once())
-                ->method('getMainRequest')
-                ->willReturn($request);
-        } else {
-            $requestStack->expects(self::once())
-                ->method('getMasterRequest')
-                ->willReturn($request);
-        }
+        $requestStack->expects(self::once())
+            ->method('getMainRequest')
+            ->willReturn($request);
 
-        $response = $this->createMock(Response::class);
-        $response->expects(self::once())
-            ->method('isSuccess')
-            ->willReturn(true);
-        $response->expects(self::once())
-            ->method('getHostname')
-            ->willReturn('host2');
+        $response = new Response(true, [], 'host2');
 
         $reCaptcha->expects(self::once())
             ->method('verify')
@@ -206,22 +180,11 @@ class IsTrueValidatorTest extends TestCase
         $request->expects(self::never())
             ->method('getHost');
 
-        if (\is_callable([$requestStack, 'getMainRequest'])) {
-            $requestStack->expects(self::once())
-                ->method('getMainRequest')
-                ->willReturn($request);
-        } else {
-            $requestStack->expects(self::once())
-                ->method('getMasterRequest')
-                ->willReturn($request);
-        }
+        $requestStack->expects(self::once())
+            ->method('getMainRequest')
+            ->willReturn($request);
 
-        $response = $this->createMock(Response::class);
-        $response->expects(self::once())
-            ->method('isSuccess')
-            ->willReturn(true);
-        $response->expects(self::never())
-            ->method('getHostname');
+        $response = new Response(true);
 
         $reCaptcha->expects(self::once())
             ->method('verify')
@@ -266,23 +229,11 @@ class IsTrueValidatorTest extends TestCase
             ->method('getHost')
             ->willReturn($host);
 
-        if (\is_callable([$requestStack, 'getMainRequest'])) {
-            $requestStack->expects(self::once())
-                ->method('getMainRequest')
-                ->willReturn($request);
-        } else {
-            $requestStack->expects(self::once())
-                ->method('getMasterRequest')
-                ->willReturn($request);
-        }
+        $requestStack->expects(self::once())
+            ->method('getMainRequest')
+            ->willReturn($request);
 
-        $response = $this->createMock(Response::class);
-        $response->expects(self::once())
-            ->method('isSuccess')
-            ->willReturn(true);
-        $response->expects(self::once())
-            ->method('getHostname')
-            ->willReturn($host);
+        $response = new Response(true, [], $host);
 
         $reCaptcha->expects(self::once())
             ->method('verify')
